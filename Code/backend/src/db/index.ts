@@ -7,8 +7,8 @@ const process = require('process');
 const e = require('express');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../db/config/config.json')[env];
-const db = {};
+const config = require(__dirname + '/../db/config/database.json')[env];
+const db: any={};
 
 let sequelize;
 if (config.use_env_variable) {
@@ -21,7 +21,7 @@ const modelsPath = path.join(__dirname, '../models');
 
 fs
   .readdirSync(modelsPath)
-  .filter(file => {
+  .filter((file: string) => {
     return (
       file.indexOf('.') !== 0 &&
       file !== basename &&
@@ -29,7 +29,7 @@ fs
       file.indexOf('.test.js') === -1
     );
   })
-  .forEach(file => {
+  .forEach((file: any) => {
     const model = require(path.join(modelsPath, file))(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });
@@ -44,4 +44,4 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 module.exports = db;
-export default sequelize;
+export default db;
